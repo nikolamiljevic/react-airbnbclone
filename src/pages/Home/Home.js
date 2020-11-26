@@ -1,19 +1,42 @@
 import React from 'react'
 import './Home.css'
+import SearchBox from './SearchBox'
+import Spinner from '../../utility/Spinner/Spinner'
+import axios from 'axios';
+import Cities from '../../utility/City/Cities';
 
 class Home extends React.Component {
-    state = {  }
+
+    state = {
+        cities: [],
+    }
+
+    async componentDidMount() {
+       const recommendedCities = await axios.get(`${window.apiHost}/cities/recommended`);
+       this.setState({cities: recommendedCities.data})
+    }
+
     render() { 
-        return ( 
-            <>
-           <p>Home</p>
-           <p>Home</p>
-           <p>Home</p>
-           <p>Home</p>
-           <p>Home</p>
-           <p>Home</p>
-           </>
-         );
+        if(this.state.cities.length === 0){
+           return <Spinner/>
+        }
+
+        const recCities = <Cities cities={this.state.cities} />
+           
+            return ( 
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="home col s12">
+                              <div className="upper-fold">
+                                  <SearchBox/>
+                              </div>
+                        </div>
+                        {recCities}
+                    </div>
+                </div>
+            );
+        
+       
     }
 }
  
