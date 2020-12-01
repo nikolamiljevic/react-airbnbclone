@@ -5,6 +5,7 @@ import Spinner from '../../utility/Spinner/Spinner'
 import axios from 'axios';
 import Cities from '../../utility/City/Cities';
 import Activities from '../../utility/Activity/Activities'
+import Venues from '../../utility/Venue/Venues'
 
 class Home extends React.Component {
 
@@ -13,7 +14,8 @@ class Home extends React.Component {
         europeCities: {},
         asiaCities: {},
         exoticCities:{},
-        activities:[]
+        activities:[],
+        venues:[]
     }
 
     async componentDidMount() {
@@ -46,6 +48,10 @@ class Home extends React.Component {
        const activitiesUrl = `${window.apiHost}/activities/today`;
        const activities = await axios.get(activitiesUrl);
        this.setState({activities: activities.data})
+
+       const venuesUrl = `${window.apiHost}/venues/recommended`;
+       const venues = await axios.get(venuesUrl);
+       this.setState({venues: venues.data.venues})
  
     }
 
@@ -71,13 +77,14 @@ class Home extends React.Component {
                     <div className="col s12">
                         <Cities cities={this.state.cities} header="Recommended cities for you"/>
                     </div>
-
                     <div className="col s12">
                         <Activities activities={this.state.activities} header="Today in your area"/>
                     </div>
-
                     <div className="col s12">
                         <Cities cities={this.state.europeCities.cities} header={this.state.europeCities.header}/>
+                    </div>
+                    <div className="col s12">
+                        <Venues venues={this.state.venues} header="Venues"/>
                     </div>
                     <div className="col s12">
                         <Cities cities={this.state.asiaCities.cities} header={this.state.asiaCities.header}/>
