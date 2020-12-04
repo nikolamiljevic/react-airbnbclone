@@ -28,8 +28,8 @@ class NavBar extends React.Component {
                                 <li><Link to="/"> $ USD </Link></li>
                                 <li><Link to="/"> Become a host </Link></li>
                                 <li><Link to="/"> Help</Link></li>
-                                <li onClick={()=>{this.props.openModal('open',<SignUp/>)}}>Sign up</li>
-                                <li onClick={()=>{this.props.openModal('open',<Login/>)}}>Login</li>
+                                <li className="login-signup" onClick={()=>{this.props.openModal('open',<SignUp/>)}}>Sign up</li>
+                                <li className="login-signup" onClick={()=>{this.props.openModal('open',<Login/>)}}>Login</li>
                             </ul>   
                         </div>
                     </nav> 

@@ -12,8 +12,12 @@
 .nav ul li{
     color: white;
     cursor: pointer;
+    
 }
 
+.nav ul li.login-signup{
+    margin-right: 10px;
+}
 
 .nav .nav-non-link{
     padding: 0 15px;

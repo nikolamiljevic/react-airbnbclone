@@ -4,7 +4,6 @@ import './Venue.css'
 
 function Venues(props){
     const venues = props.venues.map((venue, i)=>{
-        console.log(venue)
         return(
             <div key={i} className="col m6 l3">
                 <Venue venue={venue} key={i} />
