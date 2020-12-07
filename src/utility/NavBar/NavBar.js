@@ -7,9 +7,17 @@ import SignUp from '../../pages/Login/SignUp'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import openModal from '../../actions/openModal'
+import logoutAction from '../../actions/logoutAction'
 
 class NavBar extends React.Component {
-    state = {  }
+    
+    componentDidUpdate(oldProps) {
+        console.log(oldProps);
+        if (oldProps.auth.token != this.props.auth.token) {
+            this.props.openModal('closed','');
+        }
+    }
+
     render() { 
         let navColor = 'transparent';
         if(this.props.location.pathname !== '/') {
@@ -28,8 +36,21 @@ class NavBar extends React.Component {
                                 <li><Link to="/"> $ USD </Link></li>
                                 <li><Link to="/"> Become a host </Link></li>
                                 <li><Link to="/"> Help</Link></li>
+                                {this.props.auth.email 
+                                ? 
+                                <>
+                                <li>Hello, {this.props.auth.email} </li>
+                                <li onClick={() => this.props.logoutAction()}>Logout</li>
+                                </>
+                                :
+                                <>
                                 <li className="login-signup" onClick={()=>{this.props.openModal('open',<SignUp/>)}}>Sign up</li>
                                 <li className="login-signup" onClick={()=>{this.props.openModal('open',<Login/>)}}>Login</li>
+                                </>
+                              
+                                }
+                                
+                                
                             </ul>   
                         </div>
                     </nav> 
@@ -39,10 +60,17 @@ class NavBar extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        auth : state.auth
+    }
+}
+
 function mapDispatchToProps(dispatcher) {
     return bindActionCreators({
-        openModal: openModal
+        openModal: openModal,
+        logoutAction: logoutAction
     },dispatcher)
 }
  
-export default connect(null,mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps,mapDispatchToProps)(NavBar);

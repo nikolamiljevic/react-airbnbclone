@@ -5,6 +5,8 @@ import {connect} from 'react-redux'
 import openModal from '../../actions/openModal'
 import Login from './Login';
 import axios from 'axios'
+import swal from 'sweetalert'
+import regAction from '../../actions/regAction'
 
 class SignUp extends Component{
 
@@ -37,8 +39,8 @@ class SignUp extends Component{
 
     submitLogin = async (e) => {
         e.preventDefault();
-
         const url = `${window.apiHost}/users/signup`;
+      
         const data = {
             email: this.state.email,
             password: this.state.password
@@ -46,14 +48,40 @@ class SignUp extends Component{
 
         const resp = await axios.post(url,data);
         const token = resp.data.token;
+      
+        console.log(token);
+        console.log(resp.data);
+        if(resp.data.msg == 'userExists') {
+            swal({
+                title:'Email exists',
+                text: 'The email you provided is already registered. Please try another.',
+                icon: 'error'
+            })
+        } else if (resp.data.msg == 'invalidData') {
+            swal({
+                title:'Invalid email/password',
+                text: 'Please provide a valid email and password.',
+                icon: 'error'
+            })
+        } else if(resp.data.msg == 'userAdded') {
+            swal({
+                title:'Success',
+                icon: 'success'
+            });
+            this.props.regAction(resp.data);
 
-        const url2 = `${window.apiHost}/users/token-check`;
-        const resp2 = await axios.post(url2,{token});
-        console.log(resp2);
+        }
+
+        // const url2 = `${window.apiHost}/users/token-check`;
+        // const resp2 = await axios.post(url2,{token});
+        // console.log(resp2);
         
     }
 
     render(){
+
+        console.log(this.props.auth);
+
         return(
             <div className="login-form">
                 <form onSubmit={this.submitLogin}>
@@ -75,11 +103,18 @@ class SignUp extends Component{
 
 function mapDispatchToProps(dispatcher) {
     return bindActionCreators({
-        openModal: openModal
+        openModal: openModal,
+        regAction: regAction
     },dispatcher)
 }
 
-export default connect(null,mapDispatchToProps)(SignUp);
+function mapStateToProps(state) {
+    return {
+        auth : state.auth
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp);
 
 
 

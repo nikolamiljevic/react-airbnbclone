@@ -5,7 +5,6 @@ import App from './App';
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux';
-
 import rootReducer from './reducers/rootReducer';
 import reduxPromiser from 'redux-promise'
 
