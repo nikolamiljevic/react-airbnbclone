@@ -10,7 +10,7 @@ class City extends React.Component {
 
         return (
             <div className="city col s12">
-                <Link to={`/city/${id}`}>
+                <Link to={`/city/${cityName}`}>
                     <div className="image">
                         <img src={image} alt=""/>
                     </div>
