@@ -55,7 +55,7 @@ class Account extends React.Component {
                             <h1>Choose an option on the left!</h1>
                         }/>
                         <Route exact path="/account/reservations/confirmed" render={()=> 
-                            <Bookings type="upcoming" bookings={upcomingBookings} />
+                            <Bookings type="upcoming" bookings={upcomingBookings} token={this.props.auth.token} />
                         }/>
                         <Route exact path="/account/reservations/past" >
                             <Bookings type="past" bookings={pastBookings} />
